@@ -1,0 +1,20 @@
+{
+  "/": ["etc", "var", "home"],
+  "/etc": {
+    "passwd": "root:x:0:0:root:/root:/bin/bash\nadmin:x:1000:1000:Admin:/home/admin:/bin/bash",
+    "shadow": "root:$6$HASHED$...",
+    "network.conf": "firewall=enabled\nssh=on"
+  },
+  "/var": {
+    "log": {
+      "auth.log": "Jan 21 ssh login failed from 192.168.1.5",
+      "sys.log": "system boot ok"
+    }
+  },
+  "/home": {
+    "admin": {
+      "notes.txt": "backup password stored offline",
+      "todo.txt": "update server kernel"
+    }
+  }
+}

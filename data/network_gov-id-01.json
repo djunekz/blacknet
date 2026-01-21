@@ -1,0 +1,39 @@
+{
+  "internal-db": {
+    "os": "Linux",
+    "access": "ssh",
+    "trust": 3
+  },
+  "backup-server": {
+    "os": "Linux",
+    "access": "ssh",
+    "trust": 2
+  },
+  "name": "gov-id-01",
+  "nodes": {
+    "gateway": {
+      "type": "router",
+      "status": "locked",
+      "owner": null,
+      "links": ["dmz"]
+    },
+    "dmz": {
+      "type": "subnet",
+      "status": "open",
+      "owner": "red",
+      "links": ["web-01", "mail-01"]
+    },
+    "web-01": {
+      "type": "host",
+      "status": "compromised",
+      "owner": "red",
+      "links": []
+    },
+    "mail-01": {
+      "type": "host",
+      "status": "locked",
+      "owner": "blue",
+      "links": []
+    }
+  }
+}

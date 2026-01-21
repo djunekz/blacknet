@@ -1,0 +1,20 @@
+{
+  "gov-id-01": {
+    "os": "Linux",
+    "firewall": 8,
+    "vuln": 3,
+    "online": true
+  },
+  "bank-neo": {
+    "os": "Unix",
+    "firewall": 9,
+    "vuln": 2,
+    "online": true
+  },
+  "isp-jkt": {
+    "os": "Linux",
+    "firewall": 6,
+    "vuln": 5,
+    "online": false
+  }
+}

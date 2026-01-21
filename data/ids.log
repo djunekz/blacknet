@@ -1,0 +1,9 @@
+2026-01-22 01:07:34 [HIGH] target=local event=exploit chain initiated
+2026-01-22 01:07:41 [HIGH] target=gov-id-01 event=shell access obtained
+2026-01-22 01:14:51 [HIGH] target=local event=exploit chain initiated
+2026-01-22 01:14:58 [MEDIUM] target=local event=privilege escalation failed
+2026-01-22 01:21:48 [MEDIUM] target=local event=password cracking on gov-id-id:root
+2026-01-22 01:22:12 [MEDIUM] target=local event=password cracking on gov-id-01:root
+2026-01-22 01:33:44 [HIGH] target=local event=exploit chain initiated
+2026-01-22 01:33:51 [HIGH] target=gov-id-01 event=shell access obtained
+2026-01-22 01:34:11 [MEDIUM] target=gov-id-01 event=password cracking on gov-id-01:root
