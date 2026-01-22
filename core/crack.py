@@ -11,6 +11,7 @@ def crack(target, user):
     write(f"password cracking on {target}:{user}", "MEDIUM")
 
     users_path = f"{DATA}/users_{target}.json"
+    creds_path = f"{DATA}/creds_{target}.json"
     wordlist_path = f"{DATA}/wordlist.txt"
 
     # === CHECK FILES ===
@@ -38,6 +39,19 @@ def crack(target, user):
         print("[CRACK] password field missing")
         return
 
+    # === LOAD CREDS (IF ANY) ===
+    creds = {}
+    if os.path.exists(creds_path):
+        try:
+            creds = json.load(open(creds_path))
+        except json.JSONDecodeError:
+            creds = {}
+
+    # === ALREADY CRACKED ===
+    if user in creds:
+        print(f"[CRACK] password already known for {user}@{target}")
+        return
+
     print(f"[CRACK] bruteforcing {user}@{target}...")
 
     # === BRUTEFORCE ===
@@ -51,6 +65,11 @@ def crack(target, user):
 
         if w == password:
             print(f"[+] PASSWORD FOUND → {user}@{target} : {w}")
+
+            # === SAVE CREDS ===
+            creds[user] = w
+            json.dump(creds, open(creds_path, "w"), indent=2)
+
             return
 
     print("[!] crack failed")
