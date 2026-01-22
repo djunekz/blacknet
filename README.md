@@ -9,6 +9,7 @@ seolah-olah kamu benar-benar berada di sebuah mesin Linux underground.
 
 ![CodeQL](https://github.com/djunekz/blacknet/actions/workflows/codeql.yml/badge.svg)
 ![Dependabot](https://img.shields.io/badge/dependabot-enabled-brightgreen)
+[![Update Changelog](https://github.com/djunekz/blacknet/actions/workflows/changelog.yml/badge.svg)](https://github.com/djunekz/blacknet/actions/workflows/changelog.yml)
 
 > ⚠️ **INI GAME / SIMULASI**  
 > Tidak ada hacking nyata.  
