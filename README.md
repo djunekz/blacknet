@@ -22,8 +22,8 @@ Sebelum mengajukan permintaan contributor, silahkan baca:
 ![Dependabot](https://img.shields.io/badge/dependabot-enabled-brightgreen)
 ![Auto Release](https://github.com/djunekz/blacknet/actions/workflows/release.yml/badge.svg)
 
-> ⚠️ **INI GAME / SIMULASI**
-> Tidak ada hacking nyata.
+> ⚠️ **INI GAME / SIMULASI**<br>
+> Tidak ada hacking nyata.<br>
 > Tidak terhubung ke sistem nyata.
 
 ---
@@ -291,9 +291,9 @@ BLACKNET dirancang modular:
 - Mudah dikembangkan ke multiplayer / server mode
 
 ## 📜 LICENSE
-Educational & experimental use only.
+Educational & experimental use only.<br>
 Do not use this project to perform real-world attacks.
 
 ## 👤 AUTHOR
-Official Developed by djunekz
+Official Developed by [djunekz](https://github.com/djunekz)<br>
 Terminal-first • Cybersecurity Simulation • Faction Warfare
