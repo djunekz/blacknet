@@ -1,6 +1,7 @@
-name: Auto Changelog
+name: Generate Changelog
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - "v*"
@@ -10,29 +11,27 @@ permissions:
 
 jobs:
   changelog:
-    name: Generate CHANGELOG.md
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Install auto-changelog
-        run: npm install -g auto-changelog
-
-      - name: Generate changelog
+      - name: Install git-cliff
         run: |
-          auto-changelog \
-            --output CHANGELOG.md \
-            --template keepachangelog \
-            --commit-limit 100
+          curl -sSL https://github.com/orhun/git-cliff/releases/latest/download/git-cliff-linux-amd64 \
+          -o git-cliff
+          chmod +x git-cliff
+          sudo mv git-cliff /usr/local/bin/
+
+      - name: Generate CHANGELOG.md
+        run: git-cliff --config .github/cliff.toml -o CHANGELOG.md
 
       - name: Commit changelog
         run: |
           git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
+          git config user.email "actions@github.com"
           git add CHANGELOG.md
-          git commit -m "docs: update changelog for ${{ github.ref_name }}" || echo "No changes"
+          git commit -m "docs: update changelog" || echo "No changes"
           git push
