@@ -7,6 +7,9 @@ yang dirancang **realistis**, dan **tanpa gimmick**.
 Semua interaksi dilakukan lewat **command line**,  
 seolah-olah kamu benar-benar berada di sebuah mesin Linux underground.
 
+![CodeQL](https://github.com/djunekz/blacknet/actions/workflows/codeql.yml/badge.svg)
+![Dependabot](https://img.shields.io/badge/dependabot-enabled-brightgreen)
+
 > ⚠️ **INI GAME / SIMULASI**  
 > Tidak ada hacking nyata.  
 > Tidak terhubung ke sistem real.
