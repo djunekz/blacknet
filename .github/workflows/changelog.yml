@@ -1,28 +1,38 @@
-name: Update Changelog
+name: Auto Changelog
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - "v*"
 
 permissions:
   contents: write
 
 jobs:
   changelog:
+    name: Generate CHANGELOG.md
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Update CHANGELOG.md
-        uses: stefanzweifel/changelog-updater-action@v1
         with:
-          latest-version: ${{ github.event.release.tag_name }}
-          release-notes: ${{ github.event.release.body }}
+          fetch-depth: 0
+
+      - name: Install auto-changelog
+        run: npm install -g auto-changelog
+
+      - name: Generate changelog
+        run: |
+          auto-changelog \
+            --output CHANGELOG.md \
+            --template keepachangelog \
+            --commit-limit 100
 
       - name: Commit changelog
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "docs(changelog): update for ${{ github.event.release.tag_name }}"
-          file_pattern: CHANGELOG.md
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add CHANGELOG.md
+          git commit -m "docs: update changelog for ${{ github.ref_name }}" || echo "No changes"
+          git push
