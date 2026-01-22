@@ -1,34 +1,45 @@
 # 🖥️ BLACKNET
 ### Terminal-Based Hacker Simulation Game (Termux / Linux)
 
-BLACKNET adalah **game simulasi hacking berbasis terminal**  
+BLACKNET adalah **game simulasi hacking berbasis terminal**
 yang dirancang **realistis**, dan **tanpa gimmick**.
 
-Semua interaksi dilakukan lewat **command line**,  
+Semua interaksi dilakukan lewat **command line**,
 seolah-olah kamu benar-benar berada di sebuah mesin Linux underground.
+
+---
+
+## 🤝 OPEN CONTRIBUTOR
+
+Terbuka untuk berkontribusi / berkolaborasi supaya game ini berkembang lebih baik lagi.
+
+Sebelum mengajukan permintaan contributor, silahkan baca:
+- Sistem Kontribusi [CONTRIBUTING](CONTRIBUTING.md)
+- Sistem Network/Target [Sistem Network](WORLD_SPEC.md)
+- Sistem Misi/Quest [Sistem Misi](JOBS_SPEC.md)
 
 ![CodeQL](https://github.com/djunekz/blacknet/actions/workflows/codeql.yml/badge.svg)
 ![Dependabot](https://img.shields.io/badge/dependabot-enabled-brightgreen)
 ![Auto Release](https://github.com/djunekz/blacknet/actions/workflows/release.yml/badge.svg)
 
-> ⚠️ **INI GAME / SIMULASI**  
-> Tidak ada hacking nyata.  
-> Tidak terhubung ke sistem real.
+> ⚠️ **INI GAME / SIMULASI**
+> Tidak ada hacking nyata.
+> Tidak terhubung ke sistem nyata.
 
 ---
 
 ## 🎯 FILOSOFI GAME
 
 BLACKNET dibuat untuk:
-- simulasi **attack chain nyata**
-- memahami **forensics & detection**
-- merasakan **tekanan stealth**
+- Simulasi **attack chain nyata**
+- Memahami **forensics & detection**
+- Merasakan **tekanan stealth**
 - faction warfare berbasis network
 
 Tidak ada:
-- level
+- Level
 - XP bar
-- skill tree
+- Skill tree
 
 Yang ada:
 - TRACE (deteksi)
@@ -201,7 +212,7 @@ Hasil analisis menentukan respons otomatis.
 
 BLACKNET menggunakan **GitHub sebagai shared world backend**.
 
-### Developer:
+### Developer / Contributor:
 - Update `jobs.json` → commit & push
 - Tambah target baru:
   - `network_<target>.json`
@@ -229,6 +240,7 @@ BLACKNET menggunakan **GitHub sebagai shared world backend**.
 - `help`
 - `man <command>`
 - `exit`
+
 ### Core
 - exploit
 - ls / cd / cat
