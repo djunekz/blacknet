@@ -1,0 +1,46 @@
+name: Auto Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build & Release tar.gz
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get tag name
+        run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Build tar.gz (exclude tools)
+        run: |
+          git archive \
+            --format=tar \
+            --prefix=blacknet-${TAG}/ \
+            ${TAG} \
+            ':!tools' \
+            | gzip > blacknet-${TAG}.tar.gz
+
+      - name: Generate checksum
+        run: |
+          sha256sum blacknet-${TAG}.tar.gz > blacknet-${TAG}.tar.gz.sha256
+
+      - name: Create GitHub Release (auto notes)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.TAG }}
+          name: BlackNet ${{ env.TAG }}
+          generate_release_notes: true
+          files: |
+            blacknet-${{ env.TAG }}.tar.gz
+            blacknet-${{ env.TAG }}.tar.gz.sha256
