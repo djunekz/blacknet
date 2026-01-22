@@ -1,0 +1,49 @@
+version: 2
+
+updates:
+  # Python dependencies
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "03:00"
+      timezone: "UTC"
+
+    open-pull-requests-limit: 5
+
+    reviewers:
+      - "djunekz"
+
+    assignees:
+      - "djunekz"
+
+    labels:
+      - "dependencies"
+      - "python"
+      - "security"
+
+    commit-message:
+      prefix: "deps(python)"
+      include: "scope"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      time: "03:00"
+      timezone: "UTC"
+
+    reviewers:
+      - "djunekz"
+
+    assignees:
+      - "djunekz"
+
+    labels:
+      - "dependencies"
+      - "github-actions"
+
+    commit-message:
+      prefix: "deps(actions)"
