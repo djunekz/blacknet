@@ -21,6 +21,7 @@ Sebelum mengajukan permintaan contributor, silahkan baca:
 ![CodeQL](https://github.com/djunekz/blacknet/actions/workflows/codeql.yml/badge.svg)
 ![Dependabot](https://img.shields.io/badge/dependabot-enabled-brightgreen)
 ![Auto Release](https://github.com/djunekz/blacknet/actions/workflows/release.yml/badge.svg)
+[![Downloads](https://img.shields.io/github/downloads/djunekz/blacknet/total?style=for-the-badge&logo=github)](https://github.com/djunekz/blacknet/releases)
 
 > ⚠️ **INI GAME / SIMULASI**<br>
 > Tidak ada hacking nyata.<br>
