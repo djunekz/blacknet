@@ -1,6 +1,6 @@
-# 🤝 Contributing to BLACKNET
+# Contributing to BLACKNET
 
-Terima kasih sudah tertarik berkontribusi ke **BLACKNET** 🎯
+Terima kasih sudah tertarik berkontribusi ke **BLACKNET**
 Project ini adalah **terminal-based hacking simulation** untuk edukasi keamanan siber.
 
 Semua kontribusi **sangat dihargai**, baik berupa:
@@ -25,9 +25,9 @@ Semua aksi **harus berbasis simulasi dan file JSON lokal**.
 
 ---
 
-## 🧩 WHAT YOU CAN CONTRIBUTE
+## WHAT YOU CAN CONTRIBUTE
 
-### 1️⃣ Code / Features
+### Code / Features
 Contoh:
 - command baru (`scan`, `loot`, `deface`)
 - sistem IDS / firewall
@@ -40,7 +40,7 @@ core/
 
 ---
 
-### 2️⃣ World Data (Paling Disarankan)
+### World Data (Paling Disarankan)
 Kontribusi **tanpa coding berat**.
 
 #### 📌 Target baru
@@ -58,7 +58,7 @@ Contoh:
 
 ---
 
-### 3️⃣ Community Jobs
+### Community Jobs
 Tambah job baru ke:
 Folder data/jobs.json
 Format:
@@ -76,7 +76,7 @@ Format:
 
 ---
 
-### 4️⃣ Documentation
+### Documentation
 Dokumentasi sama pentingnya dengan code
 - README.md
 - CONTRIBUTING.md
@@ -85,7 +85,7 @@ Dokumentasi sama pentingnya dengan code
 
 ---
 
-### 🧪 TESTING RULES
+### TESTING RULES
 Sebelum submit PR(Pull Request):
 - Jalankan project lokal
 - Pastikan tidak error saat startup
@@ -94,7 +94,7 @@ Sebelum submit PR(Pull Request):
 
 Contoh test cepat:
 ```
-python3 blacknet.py
+python blacknet.py
 exploit alpha
 netmap
 contest router1
@@ -102,7 +102,7 @@ contest router1
 
 ---
 
-### 🧼 CODING STYLE
+### CODING STYLE
 - Python 3.8+
 - Simpel & readable
 - Hindari dependensi eksternal
@@ -111,7 +111,7 @@ contest router1
 
 ---
 
-### 🌍 GITHUB WORKFLOW
+### GITHUB WORKFLOW
 1. Fork repository
 2. Buat branch baru
 contoh:
@@ -136,7 +136,7 @@ File tersebut otomatis dibuat runtime.
 
 ---
 
-### 🛡️ SECURITY & ETHICS
+### SECURITY & ETHICS
 Jika kamu menemukan:
 - celah logic
 - exploit tidak disengaja
@@ -145,12 +145,12 @@ Laporkan via issue, jangan dipublikasikan sebagai exploit nyata.
 
 ---
 
-### ❤️ FINAL NOTES
+### FINAL NOTES
 BLACKNET dibangun untuk:
 - belajar offensive & defensive security
 - memahami forensics & detection
 - bermain dengan konsep cyber warfare
 
-Kontribusi kamu membantu project ini tumbuh 🚀
+Kontribusi kamu membantu project ini tumbuh
 
 Terima kasih!

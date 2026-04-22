@@ -1,4 +1,4 @@
-# 🖥️ BLACKNET
+# BLACKNET
 ### Terminal-Based Hacker Simulation Game (Termux / Linux)
 
 BLACKNET adalah **game simulasi hacking berbasis terminal**
@@ -9,7 +9,7 @@ seolah-olah kamu benar-benar berada di sebuah mesin Linux underground.
 
 ---
 
-## 🤝 OPEN CONTRIBUTOR
+## OPEN CONTRIBUTOR
 
 Terbuka untuk berkontribusi / berkolaborasi supaya game ini berkembang lebih baik lagi.
 
@@ -29,7 +29,7 @@ Sebelum mengajukan permintaan contributor, silahkan baca:
 
 ---
 
-## 🎯 FILOSOFI GAME
+## FILOSOFI GAME
 
 BLACKNET dibuat untuk:
 - Simulasi **attack chain nyata**
@@ -49,37 +49,37 @@ Yang ada:
 
 ---
 
-## 🧠 FITUR UTAMA
+## FITUR UTAMA
 
-### 🔧 Core Simulation
+### Core Simulation
 - `exploit` (multi-stage attack)
 - `ssh`, `crack`
 - filesystem virtual (`ls`, `cd`, `cat`)
 - privilege escalation
 
-### 🌐 Network & Lateral Movement
+### Network & Lateral Movement
 - internal network map (`netmap`)
 - pivot antar node
 - status node (locked / compromised / monitored)
 
-### ⚔️ Faction Warfare
+### Faction Warfare
 - RED vs BLUE
 - contest node ownership
 - persistent network state
 - visual ASCII war animation
 
-### 🛡️ Blue Team & Forensics
+### Blue Team & Forensics
 - log analysis
 - IOC detection
 - response escalation
 - counter-hack
 
-### 🧾 Community Job System
+### Community Job System
 - job berbasis GitHub
 - asynchronous (tidak realtime)
 - shared world, local progress
 
-### 🎨 Terminal UI
+### Terminal UI
 - ASCII banner & splash
 - loading animation
 - blinking war effects
@@ -87,7 +87,7 @@ Yang ada:
 
 ---
 
-## 📦 STRUKTUR PROYEK
+## STRUKTUR PROYEK
 ```text
 blacknet/
 ├── blacknet.py
@@ -113,55 +113,55 @@ blacknet/
 
 ---
 
-## 🚀 CARA MENJALANKAN
+## CARA MENJALANKAN
 
-### 1️⃣ Clone repo
+### Clone repo
 ```bash
 git clone https://github.com/USERNAME/blacknet.git
 cd blacknet
 ```
-### 2️⃣ Jalankan
+### Jalankan
 ```bash
 python3 blacknet.py
 ```
 
 ---
 
-## ✨ FEATURES
+## FEATURES
 
-### 🔓 Offensive Operations
+### Offensive Operations
 - Multi-stage exploit simulation
 - Brute-force (`crack`) service authentication
 - SSH-style remote login
 - Privilege escalation logic
 - Lateral movement (`pivot`)
 
-### 🛡️ Blue Team & Forensics
+### Blue Team & Forensics
 - Forensic analysis engine
 - IOC (Indicator of Compromise) detection
 - TRACE-based detection system
 - Automated blue team response
 - Counter-hack & access restriction
 
-### 🌐 Network Simulation
+### Network Simulation
 - Internal network mapping (`netmap`)
 - Node-based infrastructure
 - Trust & ownership system
 - Per-target network topology
 
-### ⚔️ Faction Warfare
+### Faction Warfare
 - Persistent faction system (RED / BLUE)
 - Node contest & control
 - Network-wide war mechanics
 - Ownership stored in shared world data
 
-### 🧩 Persistence
+### Persistence
 - Backdoor installation
 - Cron-based persistence
 - Service-based persistence
 - Reconnect without re-exploitation
 
-### 🌍 GitHub-Based Shared World
+### GitHub-Based Shared World
 - Shared jobs via `jobs.json`
 - Shared targets & networks
 - World sync (pull / push)
@@ -169,7 +169,7 @@ python3 blacknet.py
 
 ---
 
-## 🧠 CORE CONCEPTS
+## CORE CONCEPTS
 
 ### TRACE SYSTEM
 TRACE menunjukkan tingkat keterdeteksian pemain.
@@ -209,7 +209,7 @@ Hasil analisis menentukan respons otomatis.
 
 ---
 
-## 🌍 GITHUB-BASED SHARED WORLD
+## GITHUB-BASED SHARED WORLD
 
 BLACKNET menggunakan **GitHub sebagai shared world backend**.
 
@@ -227,7 +227,7 @@ BLACKNET menggunakan **GitHub sebagai shared world backend**.
 
 ---
 
-## 🕹️ COMMAND OVERVIEW
+## COMMAND OVERVIEW
 - `exploit <target>`
 - `ls` / `cd` / `cat`
 - `ssh <user> <host>`
@@ -284,17 +284,17 @@ BLACKNET menggunakan **GitHub sebagai shared world backend**.
 
 ---
 
-## 🧩 EXTENSIBILITY
+## EXTENSIBILITY
 BLACKNET dirancang modular:
 - Tambah command baru di core/
 - Tambah target via file JSON
 - Tambah job via jobs.json
 - Mudah dikembangkan ke multiplayer / server mode
 
-## 📜 LICENSE
+## LICENSE
 Educational & experimental use only.<br>
 Do not use this project to perform real-world attacks.
 
-## 👤 AUTHOR
+## AUTHOR
 Official Developed by [djunekz](https://github.com/djunekz)<br>
 Terminal-first • Cybersecurity Simulation • Faction Warfare

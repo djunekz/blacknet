@@ -17,11 +17,11 @@ Jika kamu menemukan **bug keamanan / vulnerability**, mohon **jangan membuka iss
 
 Silakan laporkan melalui salah satu cara berikut:
 
-### 🔐 Recommended (Paling Aman)
+### Recommended (Paling Aman)
 - Gunakan **GitHub Security Advisories**
 - Klik: **Security → Advisories → New draft advisory**
 
-### ✉️ Alternative
+### Alternative
 Jika GitHub Security Advisories tidak tersedia:
 - Kirim detail vulnerability melalui **private message** ke maintainer
 
@@ -55,4 +55,4 @@ Kami berusaha merespons laporan keamanan dengan timeline berikut:
 Kami menghargai **responsible disclosure**.
 Mohon tidak mempublikasikan vulnerability sebelum perbaikan dirilis.
 
-Terima kasih telah membantu menjaga project ini tetap aman 🙏
+Terima kasih telah membantu menjaga project ini tetap aman
