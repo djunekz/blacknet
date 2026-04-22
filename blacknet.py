@@ -1,4 +1,13 @@
 #!/usr/bin/env python3
+#
+# OpenSource Game
+# Open Contributing / fork and edit
+# Dev : djunekz
+# BlackNET
+# if you contributing, add '#' for comment or note
+# don't remove '#' comment for everyone
+#
+
 import time
 import sys
 
