@@ -15,8 +15,8 @@ Terbuka untuk berkontribusi / berkolaborasi supaya game ini berkembang lebih bai
 
 Sebelum mengajukan permintaan contributor, silahkan baca:
 - Sistem Kontribusi [CONTRIBUTING](CONTRIBUTING.md)
-- Sistem Network/Target [Sistem Network](WORLD_SPEC.md)
-- Sistem Misi/Quest [Sistem Misi](JOBS_SPEC.md)
+- Sistem Network/Target [Sistem Network](docs/WORLD_SPEC.md)
+- Sistem Misi/Quest [Sistem Misi](docs/JOB_SPEC.md)
 
 ![CodeQL](https://github.com/djunekz/blacknet/actions/workflows/codeql.yml/badge.svg)
 ![Dependabot](https://img.shields.io/badge/dependabot-enabled-brightgreen)

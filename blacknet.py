@@ -1,12 +1,4 @@
 #!/usr/bin/env python3
-#
-# OpenSource Game
-# Open Contributing / fork and edit
-# Dev : djunekz
-# BlackNET
-# if you contributing, add '#' for comment or note
-# don't remove '#' comment for everyone
-#
 
 import time
 import sys
@@ -17,7 +9,7 @@ from core.exploit import exploit
 from core.filesystem import ls, cd, cat
 from core.auth import ssh
 from core.crack import crack
-from core.network import netmap
+from core.netmap import netmap
 from core.pivot import pivot
 from core.persistence import (
     install_backdoor,
@@ -25,6 +17,7 @@ from core.persistence import (
     install_service,
     reconnect
 )
+from core.privilage import sudo
 from core.blueteam import respond
 from core.net.sync import sync
 from core.jobs import list_jobs, take, complete
@@ -41,13 +34,9 @@ from core.status import status
 from core.apropos import apropos
 
 
-# ==========================================================
-# INIT (SAFE)
-# ==========================================================
 try:
     banner()
 
-    # ===== PLAYER INIT =====
     p = player.load()
     if not isinstance(p, dict):
         p = {}
@@ -57,7 +46,6 @@ try:
         p["alias"] = alias or "anon"
         player.save(p)
 
-    # ===== FACTION INIT =====
     faction = get_faction()
     if not faction:
         faction = choose_faction()
@@ -69,17 +57,14 @@ try:
 except KeyboardInterrupt:
     ans = input("\nDo you really want to exit the game? [Y/n]: ").strip().lower()
     if ans in ("y", "yes", ""):
-            print("[EXIT] Session terminated.")
-            sys.exit(0)
+        print("[EXIT] Session terminated.")
+        sys.exit(0)
     else:
-            print("[RESUME TO GAME]")
-            banner()
-# ==========================================================
-# MAIN LOOP
-# ==========================================================
+        print("[RESUME TO GAME]")
+        banner()
+
 while True:
     try:
-        # reload player state
         p = player.load()
         if not isinstance(p, dict):
             p = {}
@@ -90,7 +75,6 @@ while True:
         tgt = engine.current_target or "local"
         cwd = engine.cwd
 
-        # ===== BLUE TEAM COUNTER-HACK EFFECT =====
         if getattr(engine, "counter_hack", False):
             counter_warning()
             time.sleep(getattr(engine, "latency", 0.7))
@@ -99,9 +83,6 @@ while True:
         if not cmd:
             continue
 
-        # ==================================================
-        # CORE
-        # ==================================================
         if cmd[0] == "exploit" and len(cmd) == 2:
             exploit(cmd[1])
 
@@ -126,15 +107,18 @@ while True:
             else:
                 crack(cmd[1], cmd[2])
 
+        elif cmd[0] == "sudo":
+            if len(cmd) != 2:
+                print("usage: sudo <password>")
+            else:
+                sudo(cmd[1])
+
         elif cmd[0] == "netmap":
             netmap()
 
         elif cmd[0] == "pivot" and len(cmd) == 2:
             pivot(cmd[1])
 
-        # ==================================================
-        # HELP / DOC
-        # ==================================================
         elif cmd[0] == "help":
             show_help(cmd[1] if len(cmd) > 1 else None)
 
@@ -153,9 +137,6 @@ while True:
         elif cmd[0] == "status":
             status()
 
-        # ==================================================
-        # PERSISTENCE
-        # ==================================================
         elif cmd[0] == "persist" and len(cmd) >= 2:
             if cmd[1] == "backdoor":
                 install_backdoor()
@@ -169,9 +150,6 @@ while True:
         elif cmd[0] == "reconnect":
             reconnect()
 
-        # ==================================================
-        # JOBS / COMMUNITY
-        # ==================================================
         elif cmd[0] == "jobs":
             list_jobs()
 
@@ -187,47 +165,33 @@ while True:
             else:
                 complete(cmd[1])
 
-        # ==================================================
-        # SYNC
-        # ==================================================
         elif cmd[0] == "sync":
             sync()
 
         elif cmd[0] == "pull":
             world = pull_world()
-            print("[WORLD SYNCED]")
-            print(world)
+            if world:
+                print("[WORLD SYNCED]")
+                print(world)
 
         elif cmd[0] == "push":
             push_report()
 
-        # ==================================================
-        # WAR
-        # ==================================================
         elif cmd[0] == "contest":
             if len(cmd) != 2:
                 print("usage: contest <node>")
             else:
                 contest(cmd[1])
 
-        # ==================================================
-        # STEALTH
-        # ==================================================
         elif cmd[0] == "lay-low":
             lay_low()
 
-        # ==================================================
-        # IDS
-        # ==================================================
         elif cmd[0] == "ids":
             ids_read()
 
         elif cmd[0] == "ids-clear":
             ids_clear()
 
-        # ==================================================
-        # EXIT
-        # ==================================================
         elif cmd[0] == "exit":
             print("[EXIT] Goodbye.")
             break
@@ -235,7 +199,7 @@ while True:
         else:
             print("command not found")
 
-        # ===== BLUE TEAM RESPONSE (PALING BAWAH) =====
+        patrol()
         respond()
 
     except KeyboardInterrupt:

@@ -16,42 +16,54 @@ def init_logs():
 
     path = _logfile()
 
-    if not os.path.exists(DATA):
-        os.makedirs(DATA)
+    os.makedirs(DATA, exist_ok=True)
 
     if not os.path.exists(path):
-        json.dump(
-            {
-                "auth.log": [],
-                "bash_history": [],
-                "system.log": []
-            },
-            open(path, "w"),
-            indent=2
-        )
+        with open(path, "w") as f:
+            json.dump(
+                {
+                    "auth.log": [],
+                    "bash_history": [],
+                    "sys.log": []
+                },
+                f,
+                indent=2
+            )
 
 
 def write(log, msg):
     init_logs()
-    logs = json.load(open(_logfile()))
+    if not engine.current_target:
+        return
+    with open(_logfile()) as f:
+        logs = json.load(f)
 
     if log not in logs:
         logs[log] = []
 
     logs[log].append(f"{time.ctime()} {msg}")
-    json.dump(logs, open(_logfile(), "w"), indent=2)
+
+    with open(_logfile(), "w") as f:
+        json.dump(logs, f, indent=2)
 
 
 def show(log):
     init_logs()
-    logs = json.load(open(_logfile()))
-    for l in logs.get(log, []):
-        print(l)
+    if not engine.current_target:
+        return
+    with open(_logfile()) as f:
+        logs = json.load(f)
+    for entry in logs.get(log, []):
+        print(entry)
 
 
 def clear(log):
     init_logs()
-    logs = json.load(open(_logfile()))
+    if not engine.current_target:
+        return
+    with open(_logfile()) as f:
+        logs = json.load(f)
     logs[log] = []
-    json.dump(logs, open(_logfile(), "w"), indent=2)
+    with open(_logfile(), "w") as f:
+        json.dump(logs, f, indent=2)
     print(f"[+] {log} cleared")

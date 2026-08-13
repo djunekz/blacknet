@@ -1,1 +1,42 @@
-
+[
+  {
+    "id": "JOB-001",
+    "title": "Infiltrate Gov Router",
+    "target": "gov-id-01",
+    "objective": "capture gateway node",
+    "desc": "Gain access to the government internal network via the gateway router.",
+    "reward": 300,
+    "rep": 2,
+    "difficulty": "medium"
+  },
+  {
+    "id": "JOB-002",
+    "title": "Persistence Deployment",
+    "target": "gov-id-01",
+    "objective": "install backdoor",
+    "desc": "Install a persistent backdoor on the target system.",
+    "reward": 200,
+    "rep": 1,
+    "difficulty": "easy"
+  },
+  {
+    "id": "JOB-003",
+    "title": "Log Extraction",
+    "target": "isp-jkt",
+    "objective": "dump ISP logs",
+    "desc": "Extract auth logs from the ISP node and erase evidence.",
+    "reward": 250,
+    "rep": 2,
+    "difficulty": "medium"
+  },
+  {
+    "id": "JOB-004",
+    "title": "Shadow Banking",
+    "target": "bank-neo",
+    "objective": "pivot to internal-db",
+    "desc": "Reach the internal database node inside the bank network.",
+    "reward": 500,
+    "rep": 4,
+    "difficulty": "hard"
+  }
+]

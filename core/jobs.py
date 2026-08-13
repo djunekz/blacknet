@@ -4,49 +4,65 @@ from core import player
 
 DATA_DIR = "data"
 
-JOBS_FILE = f"{DATA_DIR}/jobs.json"          # global (GitHub)
-TAKEN_FILE = f"{DATA_DIR}/jobs_taken.json"   # local player
-DONE_FILE  = f"{DATA_DIR}/jobs_done.json"    # local player
+JOBS_FILE  = f"{DATA_DIR}/jobs.json"
+TAKEN_FILE = f"{DATA_DIR}/jobs_taken.json"
+DONE_FILE  = f"{DATA_DIR}/jobs_done.json"
+
+DEFAULT_JOBS = [
+    {
+        "id": "JOB-001",
+        "title": "Infiltrate Gov Router",
+        "target": "gov-id-01",
+        "objective": "capture gateway node",
+        "desc": "Gain access to the government internal network via the gateway router.",
+        "reward": 300,
+        "rep": 2,
+        "difficulty": "medium"
+    },
+    {
+        "id": "JOB-002",
+        "title": "Persistence Deployment",
+        "target": "gov-id-01",
+        "objective": "install backdoor",
+        "desc": "Install a persistent backdoor on the target system.",
+        "reward": 200,
+        "rep": 1,
+        "difficulty": "easy"
+    },
+    {
+        "id": "JOB-003",
+        "title": "Log Extraction",
+        "target": "isp-jkt",
+        "objective": "dump ISP logs",
+        "desc": "Extract auth logs from the ISP node and erase evidence.",
+        "reward": 250,
+        "rep": 2,
+        "difficulty": "medium"
+    }
+]
 
 
-# =========================
-# INIT FILES (SAFE)
-# =========================
 def _load(path, default):
+    os.makedirs(DATA_DIR, exist_ok=True)
     if not os.path.exists(path):
         with open(path, "w") as f:
             json.dump(default, f, indent=2)
     with open(path) as f:
-        return json.load(f)
+        try:
+            return json.load(f)
+        except json.JSONDecodeError:
+            return default
 
 
 def init():
-    os.makedirs(DATA_DIR, exist_ok=True)
-
-    _load(JOBS_FILE, [
-        {
-            "id": "JOB-001",
-            "desc": "dump ISP logs",
-            "reward": 200,
-            "rep": 1
-        },
-        {
-            "id": "JOB-002",
-            "desc": "deface corp site",
-            "reward": 300,
-            "rep": 2
-        }
-    ])
-
+    _load(JOBS_FILE, DEFAULT_JOBS)
     _load(TAKEN_FILE, [])
     _load(DONE_FILE, [])
 
 
-# =========================
-# LIST JOBS
-# =========================
 def list_jobs():
-    jobs = _load(JOBS_FILE, [])
+    init()
+    jobs  = _load(JOBS_FILE, [])
     taken = _load(TAKEN_FILE, [])
     done  = _load(DONE_FILE, [])
 
@@ -56,23 +72,24 @@ def list_jobs():
     print("\nAVAILABLE JOBS\n")
     for j in jobs:
         if j["id"] in done_ids:
-            status = "DONE"
+            st = "DONE"
         elif j["id"] in taken_ids:
-            status = "TAKEN"
+            st = "TAKEN"
         else:
-            status = "OPEN"
+            st = "OPEN"
 
-        print(f"[{j['id']}] {j['desc']}")
-        print(f"  reward : {j['reward']} credits")
-        print(f"  rep    : +{j['rep']}")
-        print(f"  status : {status}")
+        print(f"[{j['id']}] {j.get('title', j.get('desc', '?'))}")
+        print(f"  target    : {j.get('target', '-')}")
+        print(f"  objective : {j.get('objective', '-')}")
+        print(f"  reward    : {j['reward']} credits")
+        print(f"  rep       : +{j['rep']}")
+        print(f"  difficulty: {j.get('difficulty', '-')}")
+        print(f"  status    : {st}")
         print()
 
 
-# =========================
-# TAKE JOB
-# =========================
 def take(job_id):
+    init()
     jobs  = _load(JOBS_FILE, [])
     taken = _load(TAKEN_FILE, [])
     done  = _load(DONE_FILE, [])
@@ -95,23 +112,23 @@ def take(job_id):
         json.dump(taken, f, indent=2)
 
     print(f"[+] job {job_id} accepted")
+    print(f"    objective: {job.get('objective', '-')}")
+    print(f"    target   : {job.get('target', '-')}")
 
 
-# =========================
-# COMPLETE JOB
-# =========================
 def complete(job_id):
+    init()
     taken = _load(TAKEN_FILE, [])
     done  = _load(DONE_FILE, [])
 
     job = next((j for j in taken if j["id"] == job_id), None)
     if not job:
-        print("[-] job not taken")
+        print("[-] job not taken or not found")
         return
 
     p = player.load()
-    p["credits"] += job["reward"]
-    p["rep"] += job["rep"]
+    p["credits"] = p.get("credits", 0) + job["reward"]
+    p["rep"]     = p.get("rep", 0)     + job["rep"]
     player.save(p)
 
     taken = [j for j in taken if j["id"] != job_id]

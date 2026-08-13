@@ -1,8 +1,8 @@
-def pack(player):
+def pack(p):
     return {
-        "rep": player.rep,
-        "trace": player.trace,
-        "jobs": player.completed_jobs[-5:]
+        "rep": p.get("rep", 0),
+        "trace": p.get("trace", 0),
+        "jobs": p.get("completed_jobs", [])[-5:]
     }
 
 def unpack(data, world):

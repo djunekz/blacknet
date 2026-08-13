@@ -2,14 +2,14 @@ import json, os, random, sys, time
 
 from core import engine
 from core.faction import get_faction
-from core.network import netmap
+from core.netmap import netmap
 from core.ui import RED, GREEN, YELLOW, RESET
 from core.ids import write
 from core.blueteam import increase_trace
 
 DATA = "data"
 
-# ===== LOAD / SAVE NETWORK =====
+
 def load_net():
     if not engine.current_target:
         return None
@@ -18,7 +18,10 @@ def load_net():
     if not os.path.exists(path):
         return None
 
-    return json.load(open(path))
+    try:
+        return json.load(open(path))
+    except json.JSONDecodeError:
+        return None
 
 
 def save_net(net):
@@ -26,16 +29,11 @@ def save_net(net):
         return
 
     path = f"{DATA}/network_{engine.current_target}.json"
-    json.dump(net, open(path, "w"), indent=2)
+    with open(path, "w") as f:
+        json.dump(net, f, indent=2)
 
 
-# ===== ANIMASI NODE =====
 def blink_node(node_name, success=True, times=6, delay=0.15):
-    """
-    Animasi saat node sedang diperebutkan
-    success=True  -> hijau
-    success=False -> merah
-    """
     color = GREEN if success else RED
     symbol = "✔" if success else "✖"
 
@@ -47,12 +45,10 @@ def blink_node(node_name, success=True, times=6, delay=0.15):
         sys.stdout.flush()
         time.sleep(delay)
 
-    # bersihkan baris
     sys.stdout.write("\r" + " " * 60 + "\r")
     sys.stdout.flush()
 
 
-# ===== KONTEST NODE =====
 def contest(node_name):
     if not engine.current_target:
         print("[WAR] no target connected")
@@ -67,25 +63,20 @@ def contest(node_name):
     my = get_faction()
     enemy = node.get("owner")
 
-    # ===== ALREADY OWNED =====
     if enemy == my:
         print(f"[WAR] {node_name} already controlled by your faction")
         return
 
     print(f"[WAR] contesting node {node_name}...")
 
-    # IDS: aksi sangat noisy
     write(f"faction contest on node {node_name}", "HIGH")
 
-    # ===== RANDOM CHANCE =====
     base = random.randint(1, 10)
     modifier = random.randint(0, 3)
     success = (base + modifier) > 6
 
-    # ===== ANIMASI =====
     blink_node(node_name, success)
 
-    # ===== HASIL =====
     if success:
         node["owner"] = my
         node["status"] = "compromised"
@@ -100,6 +91,5 @@ def contest(node_name):
             f"{RED}[WAR] contest failed — node {node_name} under monitoring{RESET}"
         )
 
-    # ===== SIMPAN & TAMPILKAN =====
     save_net(net)
     netmap()

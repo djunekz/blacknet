@@ -1,7 +1,6 @@
 from core import engine
 from core.worldgen import generate_notes, generate_leak
 
-# struktur folder virtual
 VFS = {
     "/": ["home", "darknet"],
     "/home": ["anon"],
@@ -22,6 +21,6 @@ def read_file(path):
         return generate_leak(target)
 
     if path == "/darknet/bbs.txt":
-        return "The target file is located in the home directory\nOficial Developer : Djunekz (github.com/djunekz/blacknet)"
+        return "The target file is located in the home directory\nOfficial Developer : Djunekz (github.com/djunekz/blacknet)"
 
     return None

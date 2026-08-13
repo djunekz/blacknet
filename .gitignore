@@ -1,1 +1,14 @@
 tools/
+__pycache__/
+*.pyc
+*.pyo
+data/logs_*.json
+data/persist_*.json
+data/creds_*.json
+data/jobs_taken.json
+data/jobs_done.json
+data/world.json
+data/world_cache.json
+data/reports/
+data/player.json
+data/profile.json

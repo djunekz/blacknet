@@ -1,39 +1,40 @@
 {
-  "internal-db": {
-    "os": "Linux",
-    "access": "ssh",
-    "trust": 3
-  },
-  "backup-server": {
-    "os": "Linux",
-    "access": "ssh",
-    "trust": 2
-  },
-  "name": "gov-id-01",
+  "name": "Gov Indonesia Internal Network",
   "nodes": {
     "gateway": {
       "type": "router",
       "status": "locked",
       "owner": null,
+      "trust": 4,
       "links": ["dmz"]
     },
     "dmz": {
       "type": "subnet",
       "status": "open",
       "owner": "red",
+      "trust": 3,
       "links": ["web-01", "mail-01"]
     },
     "web-01": {
       "type": "host",
       "status": "compromised",
       "owner": "red",
+      "trust": 2,
       "links": []
     },
     "mail-01": {
       "type": "host",
       "status": "locked",
       "owner": "blue",
+      "trust": 4,
       "links": []
+    },
+    "internal-db": {
+      "type": "host",
+      "status": "locked",
+      "owner": null,
+      "trust": 5,
+      "links": ["dmz"]
     }
   }
 }
