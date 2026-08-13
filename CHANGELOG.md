@@ -6,6 +6,10 @@ This project follows semantic versioning.
 
 ## [Unreleased]
 
+---
+
+## [v1.0.4] - 2026-08-13
+
 ### Fixed
 - `core/pivot.py` — pivot sekarang mengakses `net["nodes"][host]` bukan `net[host]` yang salah format
 - `core/net/protocol.py` — `pack()` sekarang menerima dict player bukan module langsung
