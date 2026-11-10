@@ -1,5 +1,5 @@
 # BLACKNET
-### Terminal-Based Hacker Simulation Game (Termux / Linux)
+### Terminal-Based Hacker Simulation Game (Android APK / Termux / Linux)
 
 BLACKNET adalah **game simulasi hacking berbasis terminal**
 yang dirancang **realistis**, dan **tanpa gimmick**.
@@ -90,10 +90,18 @@ Yang ada:
 ## STRUKTUR PROYEK
 ```text
 blacknet/
-├── blacknet.py
+├── blacknet.py          < entry point terminal
+├── main.py              < entry point Android (Kivy)
+├── buildozer.spec       < konfigurasi build APK
+├── assets/              < font monospace untuk tampilan Android
 ├── core/
+│   ├── game.py          < main loop & dispatcher command
+│   ├── paths.py         < lokasi data (terminal / Android)
+│   ├── store.py         < baca/tulis JSON yang aman
+│   ├── bridge.py        < jembatan stdout/input untuk UI Android
+│   ├── ansi.py          < emulator terminal untuk UI Android
 │   ├── exploit.py
-│   ├── network.py
+│   ├── netmap.py
 │   ├── war.py
 │   ├── blueteam.py
 │   ├── forensics.py
@@ -106,6 +114,7 @@ blacknet/
 │   ├── network_*.json < World Engine
 │   ├── users_*.json
 │   └── fs_*.json
+├── tests/
 └── docs/
     ├── WORLD_SPEC.md
     └── JOB_SPEC.md
@@ -115,14 +124,57 @@ blacknet/
 
 ## CARA MENJALANKAN
 
-### Clone repo
+### Terminal (Linux / Termux / macOS)
 ```bash
-git clone https://github.com/USERNAME/blacknet.git
+git clone https://github.com/djunekz/blacknet.git
 cd blacknet
-```
-### Jalankan
-```bash
 python3 blacknet.py
+```
+Bisa dijalankan dari folder mana pun, data tetap dibaca dari folder `data/` milik proyek.
+
+Opsi:
+```bash
+python3 blacknet.py --version
+python3 blacknet.py --help
+```
+
+Environment variable:
+| Variable | Fungsi |
+|:---------|:-------|
+| `BLACKNET_HOME` | simpan semua data game (`$BLACKNET_HOME/data`) di lokasi lain |
+| `BLACKNET_FAST` | `1` untuk mematikan animasi dan jeda ketikan |
+
+### Android (APK)
+Game yang sama berjalan di Android lewat UI terminal berbasis Kivy
+(`main.py`). Data game disimpan di penyimpanan privat aplikasi.
+
+**Unduh:** ambil file `.apk` dari halaman
+[Releases](https://github.com/djunekz/blacknet/releases)
+atau dari artifact workflow **Build APK** di tab Actions.
+
+**Build sendiri** (Linux / WSL / GitHub Actions):
+```bash
+pip install buildozer cython virtualenv
+buildozer -v android debug
+```
+Hasil ada di folder `bin/`. Build pertama memakan waktu lama karena
+mengunduh Android SDK & NDK.
+
+**Build lewat GitHub:** push tag `v*` atau jalankan workflow
+**Build APK** secara manual. APK otomatis terlampir di Release.
+
+**Coba UI Android di desktop:**
+```bash
+pip install kivy
+python3 main.py
+```
+
+Di layar Android tersedia tombol perintah cepat, kolom input, dan
+tombol `A-` / `A+` untuk ukuran font.
+
+### Tes
+```bash
+python3 -m unittest discover -s tests
 ```
 
 ---
@@ -230,14 +282,18 @@ BLACKNET menggunakan **GitHub sebagai shared world backend**.
 ## COMMAND OVERVIEW
 - `exploit <target>`
 - `ls` / `cd` / `cat`
-- `ssh <user> <host>`
-- `crack <service>`
+- `ssh <user>`
+- `crack <target> <user>`
+- `sudo <password>`
 - `netmap`
 - `pivot <node>`
 - `contest <node>`
 - `jobs`
 - `take <job_id>`
+- `complete <job_id>`
 - `sync`
+- `lay-low`
+- `ids` / `ids-clear`
 - `help`
 - `man <command>`
 - `exit`
@@ -262,7 +318,7 @@ BLACKNET menggunakan **GitHub sebagai shared world backend**.
 - cron
 - persist
 - service
-- reconnect
+- reconnect [target]
 
 ### Community
 - jobs
@@ -280,6 +336,7 @@ BLACKNET menggunakan **GitHub sebagai shared world backend**.
 ## Compatible with
 - Linux
 - Termux (Android)
+- Android APK
 - macOS
 
 ---

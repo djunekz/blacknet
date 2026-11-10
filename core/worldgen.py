@@ -1,10 +1,13 @@
-import json
 import random
 
-DATA = "data"
+from core import store
+from core.paths import DATA
+
 
 def load_targets():
-    return json.load(open(f"{DATA}/targets.json"))
+    data = store.read_json(f"{DATA}/targets.json", {})
+    return data if isinstance(data, dict) else {}
+
 
 def generate_notes():
     targets = load_targets()
@@ -13,19 +16,21 @@ def generate_notes():
 
     lines = ["# personal notes\n"]
     for t in sample:
-        os = targets[t]["os"]
-        lines.append(f"- heard {t} runs {os}")
+        os_name = targets[t].get("os", "unknown")
+        lines.append(f"- heard {t} runs {os_name}")
 
     return "\n".join(lines) + "\n"
+
 
 def generate_leak(target):
     t = load_targets().get(target)
     if not t:
-        return "no data"
+        return None
 
-    return f"""TARGET: {target}
-OS: {t['os']}
-FIREWALL: {t['firewall']}
-VULN SCORE: {t['vuln']}
-ONLINE: {t['online']}
-"""
+    return (
+        f"TARGET: {target}\n"
+        f"OS: {t.get('os', '?')}\n"
+        f"FIREWALL: {t.get('firewall', '?')}\n"
+        f"VULN SCORE: {t.get('vuln', '?')}\n"
+        f"ONLINE: {t.get('online', '?')}\n"
+    )

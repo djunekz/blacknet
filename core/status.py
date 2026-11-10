@@ -1,8 +1,7 @@
 from core import engine, player
 from core.faction import get_faction
-import json, os
-
-DATA = "data"
+from core import store
+from core.paths import DATA
 
 def status():
     p = player.load()
@@ -24,6 +23,8 @@ def status():
         print(" Not connected")
     else:
         print(f" Target    : {engine.current_target}")
+        if engine.current_node:
+            print(f" Node      : {engine.current_node}")
         print(f" User      : {engine.logged_user or 'shell'}")
         print(f" Directory : {engine.cwd}")
 
@@ -32,17 +33,16 @@ def status():
     if not engine.current_target:
         print(" No active battlefield")
     else:
-        path = f"{DATA}/network_{engine.current_target}.json"
-        if not os.path.exists(path):
+        net = store.read_json(f"{DATA}/network_{engine.current_target}.json")
+        if not isinstance(net, dict) or not isinstance(net.get("nodes"), dict):
             print(" No network data")
         else:
-            net = json.load(open(path))
-            total = len(net.get("nodes", {}))
+            nodes = net["nodes"]
             owned = sum(
-                1 for n in net["nodes"].values()
-                if n.get("owner") == faction
+                1 for n in nodes.values()
+                if faction and n.get("owner") == faction
             )
-            print(f" Nodes owned: {owned}/{total}")
+            print(f" Nodes owned: {owned}/{len(nodes)}")
 
     # ===== STEALTH =====
     print("\n[STEALTH]")

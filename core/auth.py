@@ -1,13 +1,11 @@
-import json
 import os
-from core import engine, player
-from core.logs import init_logs
 
-DATA = "data"
+from core import engine, player, store
+from core.logs import init_logs
+from core.paths import DATA
 
 
 def ssh(user):
-    # ===== TARGET CHECK =====
     if not engine.current_target:
         print("[!] no target connected")
         return
@@ -16,44 +14,36 @@ def ssh(user):
     users_file = f"{DATA}/users_{target}.json"
     creds_file = f"{DATA}/creds_{target}.json"
 
-    # ===== USER DB CHECK =====
     if not os.path.exists(users_file):
         print("[!] no user database found on target")
         return
 
-    # ===== LOAD USER DB =====
-    try:
-        users = json.load(open(users_file))
-    except json.JSONDecodeError:
+    users = store.read_json(users_file)
+    if not isinstance(users, dict):
         print("[!] corrupted user database")
         return
 
-    # ===== USER EXISTS =====
     if user not in users:
         print("[!] user does not exist")
         player.add_trace(1)
         return
 
-    # ===== CREDS CHECK =====
     if not os.path.exists(creds_file):
         print("[!] no credentials found, crack first")
         player.add_trace(1)
         return
 
-    try:
-        creds = json.load(open(creds_file))
-    except json.JSONDecodeError:
+    creds = store.read_json(creds_file)
+    if not isinstance(creds, dict):
         print("[!] corrupted credentials file")
         return
 
-    # ===== PASSWORD KNOWN =====
     if user not in creds:
         print("[!] password unknown, crack required")
         player.add_trace(1)
         return
 
-    # ===== AUTH =====
-    real_pw = users[user].get("password")
+    real_pw = users[user].get("password") if isinstance(users[user], dict) else None
     known_pw = creds.get(user)
 
     if not real_pw:

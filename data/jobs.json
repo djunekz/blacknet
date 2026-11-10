@@ -32,9 +32,9 @@
   {
     "id": "JOB-004",
     "title": "Shadow Banking",
-    "target": "bank-neo",
+    "target": "gov-id-01",
     "objective": "pivot to internal-db",
-    "desc": "Reach the internal database node inside the bank network.",
+    "desc": "Reach the internal database node inside the government network.",
     "reward": 500,
     "rep": 4,
     "difficulty": "hard"

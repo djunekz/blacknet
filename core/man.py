@@ -68,13 +68,9 @@ SYNOPSIS
   crack <target> <user>
 
 DESCRIPTION
-  Performs brute-force attack against a service
-  such as ssh, ftp, or database login.
-
-SUPPORTED SERVICES
-  ssh
-  ftp
-  mysql
+  Brute-forces the password of <user> on <target>
+  using the wordlist. A cracked password is stored
+  so that ssh <user> can log in afterwards.
 
 RISK
   High TRACE increase.
@@ -85,7 +81,7 @@ DETECTION
   - auth.log anomalies
 
 EXAMPLE
-  crack ssh
+  crack gov-id-01 root
 """,
 
 "exploit": """
@@ -308,6 +304,88 @@ SYNOPSIS
 
 DESCRIPTION
   Accepts a job and tracks progress.
+""",
+
+"sudo": """
+NAME
+  sudo - become root
+
+SYNOPSIS
+  sudo <password>
+
+DESCRIPTION
+  Elevates the logged in user to root when the root
+  password is correct. Failure raises TRACE.
+""",
+
+"reconnect": """
+NAME
+  reconnect - return through persistence
+
+SYNOPSIS
+  reconnect [target]
+
+DESCRIPTION
+  Re-enters a target where persistence was installed,
+  without running exploit again. Without an argument
+  the last connected target is used.
+""",
+
+"complete": """
+NAME
+  complete - finish a job
+
+SYNOPSIS
+  complete <job_id>
+
+DESCRIPTION
+  Marks a taken job as done and pays credits and
+  reputation.
+""",
+
+"lay-low": """
+NAME
+  lay-low - reduce TRACE
+
+SYNOPSIS
+  lay-low
+
+DESCRIPTION
+  Reduces TRACE by up to 2 and clears counter-hack
+  pressure. Works with or without an active target.
+""",
+
+"ids": """
+NAME
+  ids - read intrusion detection log
+
+SYNOPSIS
+  ids
+  ids-clear
+
+DESCRIPTION
+  ids prints the IDS log. ids-clear erases it.
+""",
+
+"status": """
+NAME
+  status - show player and target status
+
+SYNOPSIS
+  status
+""",
+
+"pull": """
+NAME
+  pull - download shared world state
+
+SYNOPSIS
+  pull
+  push
+
+DESCRIPTION
+  pull caches the shared world from GitHub.
+  push writes a local progress report to submit by PR.
 """,
 
 "sync": """

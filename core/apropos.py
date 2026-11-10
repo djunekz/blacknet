@@ -1,12 +1,16 @@
-from core.man import man
-
 INDEX = {
     "war": "faction warfare system",
     "contest": "capture network node",
     "netmap": "internal network topology",
     "stealth": "trace and detection control",
     "blue": "defensive response system",
-    "persistence": "maintain access"
+    "persistence": "maintain access",
+    "pivot": "lateral movement between nodes",
+    "crack": "brute-force a user password",
+    "jobs": "community contracts",
+    "sudo": "become root",
+    "lay-low": "reduce trace",
+    "ids": "intrusion detection log"
 }
 
 def apropos(keyword):

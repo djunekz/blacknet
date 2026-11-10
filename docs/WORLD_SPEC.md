@@ -62,7 +62,7 @@ Field:
 
 📌 Digunakan oleh:
 - `netmap`
-- `pivot`
+- `pivot` (mengganti node aktif, target tetap sama)
 - `contest`
 
 ---
@@ -74,18 +74,21 @@ Contoh:
 {
   "root": {
     "password": "toor",
-    "priv": "root"
+    "role": "root"
   },
   "admin": {
     "password": "admin123",
-    "priv": "sudo"
+    "role": "user"
   },
   "guest": {
     "password": "guest",
-    "priv": "user"
+    "role": "user"
   }
 }
 ```
+📌 Password setiap user harus ada di `data/wordlist.txt`
+agar bisa di-`crack`.
+
 📌 Digunakan oleh:
 - `ssh`
 - `crack`
@@ -115,6 +118,14 @@ Contoh:
   }
 }
 ```
+Loader filesystem menerima tiga bentuk dan menggabungkannya:
+- format di atas (`type` / `children`)
+- flat: key berupa path (`"/etc"`), value berupa isi direktori
+- nested: direktori berisi direktori lain sebagai dict
+
+Nilai string dianggap file, dict dianggap direktori, list nama dianggap
+direktori kosong.
+
 📌 Digunakan oleh:
 - `ls`
 - `cd`

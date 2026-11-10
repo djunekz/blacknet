@@ -64,12 +64,13 @@ Folder data/jobs.json
 Format:
 ```json
 {
-  "id": "job-004",
+  "id": "JOB-005",
   "title": "Compromise Internal Router",
   "target": "gov-id-01",
-  "objective": "Capture router1 node",
+  "objective": "Capture gateway node",
   "reward": 500,
-  "difficulty": "HARD"
+  "rep": 3,
+  "difficulty": "hard"
 }
 ```
 📌 Tambahkan saja, jangan hapus job lama.
@@ -95,9 +96,13 @@ Sebelum submit PR(Pull Request):
 Contoh test cepat:
 ```
 python blacknet.py
-exploit alpha
+exploit gov-id-01
 netmap
-contest router1
+contest gateway
+```
+Jalankan juga test otomatis:
+```
+python -m unittest discover -s tests
 ```
 
 ---

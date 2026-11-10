@@ -1,9 +1,10 @@
-import json, os
+import os
 
-DATA = "data"
+from core import store
+from core.paths import DATA
+
 PLAYER = f"{DATA}/player.json"
 
-# ===== LOAD / SAVE =====
 DEFAULT = {
     "alias": None,
     "credits": 100,
@@ -12,18 +13,32 @@ DEFAULT = {
     "faction": None
 }
 
+
+def _int(value, fallback=0):
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return fallback
+
+
 def load():
+    p = dict(DEFAULT)
+    data = store.read_json(PLAYER)
+    if isinstance(data, dict):
+        p.update(data)
+    for key in ("credits", "rep", "trace"):
+        p[key] = _int(p.get(key), DEFAULT[key])
     if not os.path.exists(PLAYER):
-        save(DEFAULT.copy())
-    return json.load(open(PLAYER))
+        save(p)
+    return p
+
 
 def save(p):
-    os.makedirs(DATA, exist_ok=True)
-    json.dump(p, open(PLAYER, "w"), indent=2)
+    store.write_json(PLAYER, p)
 
-# ===== TRACE HANDLER =====
+
 def add_trace(n=1):
     p = load()
-    p["trace"] += n
+    p["trace"] = p.get("trace", 0) + n
     save(p)
     print(f"[TRACE] +{n} (current trace: {p['trace']})")

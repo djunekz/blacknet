@@ -1,8 +1,7 @@
-import json
 import os
-from core import engine
 
-DATA = "data"
+from core import engine, store
+from core.paths import DATA
 
 
 def analyze():
@@ -12,14 +11,15 @@ def analyze():
     score = 0
     iocs = []
 
-    try:
-        with open(f"{DATA}/logs_{engine.current_target}.json") as f:
-            logs = json.load(f)
-    except Exception:
+    logs = store.read_json(f"{DATA}/logs_{engine.current_target}.json", {})
+    if not isinstance(logs, dict):
         logs = {}
 
-    auth   = logs.get("auth.log", [])
-    syslog = logs.get("sys.log", [])
+    auth = [l for l in logs.get("auth.log", []) if isinstance(l, str)]
+    syslog = [l for l in logs.get("sys.log", []) if isinstance(l, str)]
+    written = logs.get("_written", {})
+    if not isinstance(written, dict):
+        written = {}
 
     if len(auth) >= 3:
         score += 2
@@ -37,11 +37,11 @@ def analyze():
         score += 3
         iocs.append("lateral movement")
 
-    if "auth.log" in logs and logs.get("auth.log") == []:
+    if written.get("auth.log", 0) > 0 and logs.get("auth.log") == []:
         score += 3
         iocs.append("auth log wiped")
 
-    if "sys.log" in logs and logs.get("sys.log") == []:
+    if written.get("sys.log", 0) > 0 and logs.get("sys.log") == []:
         score += 2
         iocs.append("system log wiped")
 
@@ -55,12 +55,10 @@ def analyze():
 
     ids_log_path = f"{DATA}/ids.log"
     idslog = []
+    token = f"target={engine.current_target} "
     if os.path.exists(ids_log_path):
-        with open(ids_log_path) as f:
-            idslog = [
-                line.strip() for line in f
-                if engine.current_target in line
-            ]
+        with open(ids_log_path, encoding="utf-8") as f:
+            idslog = [line.strip() for line in f if token in line]
 
     if len(idslog) >= 2:
         score += 2
@@ -70,10 +68,8 @@ def analyze():
         score += 3
         iocs.append("high confidence intrusion")
 
-    try:
-        with open(f"{DATA}/persist_{engine.current_target}.json") as f:
-            persist = json.load(f)
-
+    persist = store.read_json(f"{DATA}/persist_{engine.current_target}.json", {})
+    if isinstance(persist, dict):
         if persist.get("cron"):
             score += 2
             iocs.append("cron persistence")
@@ -86,10 +82,4 @@ def analyze():
             score += 3
             iocs.append("backdoor installed")
 
-    except Exception:
-        pass
-
-    if score > 10:
-        score = 10
-
-    return score, iocs
+    return min(score, 10), iocs

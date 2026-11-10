@@ -1,7 +1,6 @@
-import json
-from core import engine, logs, player
+from core import engine, logs, player, store
+from core.paths import DATA
 
-DATA = "data"
 
 def sudo(pw):
     if not engine.logged_user:
@@ -12,16 +11,14 @@ def sudo(pw):
         print("no active target")
         return
 
-    try:
-        with open(f"{DATA}/users_{engine.current_target}.json") as f:
-            users = json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError):
+    users = store.read_json(f"{DATA}/users_{engine.current_target}.json")
+    if not isinstance(users, dict):
         print("[!] user database unavailable")
         return
 
     user = engine.logged_user
 
-    if user not in users:
+    if user not in users or not isinstance(users[user], dict):
         print("[!] user not found in database")
         return
 
@@ -31,7 +28,9 @@ def sudo(pw):
         print("[+] already root")
         return
 
-    if pw == users.get("root", {}).get("password", ""):
+    root_pw = users.get("root", {}).get("password", "")
+
+    if root_pw and pw == root_pw:
         engine.logged_user = "root"
         logs.write("auth.log", "sudo to root")
         print("[+] root shell granted")

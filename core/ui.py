@@ -11,10 +11,20 @@ RESET  = "\033[0m"
 GREY   = "\033[90m"
 BOLD   = "\033[1m"
 
+def _fast():
+    return os.environ.get("BLACKNET_FAST") == "1"
+
 def clear():
-    os.system("clear")
+    if os.name == "nt":
+        os.system("cls")
+        return
+    sys.stdout.write("\033[2J\033[3J\033[H")
+    sys.stdout.flush()
 
 def slow_print(text, delay=0.01):
+    if _fast():
+        print(text)
+        return
     for c in text:
         sys.stdout.write(c)
         sys.stdout.flush()
@@ -37,6 +47,10 @@ def banner():
     print()
 
 def loading(text="connecting", t=1.5, done="done"):
+    if _fast():
+        if done:
+            print(f"[+] {text} {done}")
+        return
     frames = ["|", "/", "-", "\\"]
     end = time.time() + t
     i = 0
@@ -53,14 +67,18 @@ def loading(text="connecting", t=1.5, done="done"):
     if done:
         print(f"[+] {text} {done}")
 
-def status_bar(engine, _player_module):
-    p = player.load()  # ambil data player dari file
+def status_bar(engine, p=None):
+    if not isinstance(p, dict):
+        p = player.load()
 
     trace = p.get("trace", 0)
     rep   = p.get("rep", 0)
 
+    node = f" [NODE:{engine.current_node}]" if getattr(engine, "current_node", None) else ""
+
     print(
         BLUE   + f"[TARGET:{engine.current_target or 'LOCAL'}]"
+        + CYAN   + node
         + YELLOW + f" [TRACE:{trace}]"
         + GREEN  + f" [REP:{rep}]"
         + RESET

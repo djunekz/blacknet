@@ -122,6 +122,19 @@ CORE
   exploit <target>
   crack <target> <user>
   ssh <user>
+  sudo <password>
+
+PERSISTENCE
+  persist backdoor|cron|service
+  reconnect [target]
+
+COMMUNITY
+  jobs
+  take <job_id>
+  complete <job_id>
+  sync
+  pull
+  push
 
 NETWORK
   netmap
@@ -134,6 +147,8 @@ WAR / FACTION
 
 STEALTH
   lay-low
+  ids
+  ids-clear
   help stealth
 
 SYSTEM

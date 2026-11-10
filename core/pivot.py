@@ -1,17 +1,16 @@
-import json, random
-from core import engine, player, logs
+import random
 
-DATA = "data"
+from core import engine, player, logs, store
+from core.paths import DATA
+
 
 def pivot(host):
     if not engine.current_target:
         print("no active session")
         return
 
-    path = f"{DATA}/network_{engine.current_target}.json"
-    try:
-        net = json.load(open(path))
-    except (FileNotFoundError, json.JSONDecodeError):
+    net = store.read_json(f"{DATA}/network_{engine.current_target}.json")
+    if not isinstance(net, dict):
         print("network data missing or corrupted")
         return
 
@@ -19,6 +18,10 @@ def pivot(host):
 
     if host not in nodes:
         print("host not reachable")
+        return
+
+    if host == engine.current_node:
+        print(f"already on {host}")
         return
 
     node = nodes[host]
@@ -29,7 +32,7 @@ def pivot(host):
 
     if chance >= trust:
         logs.write("auth.log", f"lateral access to {host}")
-        engine.current_target = host
+        engine.current_node = host
         engine.cwd = "/"
         engine.logged_user = None
         print("[+] pivot successful")

@@ -1,16 +1,14 @@
 import time
+
 from core import engine, player
 from core.ui import loading
 
-def lay_low():
-    if not engine.current_target:
-        print("lay-low: no active connection")
-        return
 
+def lay_low():
     p = player.load()
     trace = p.get("trace", 0)
 
-    if trace <= 0:
+    if trace <= 0 and not engine.counter_hack:
         print("lay-low: no trace to reduce")
         return
 
@@ -18,21 +16,16 @@ def lay_low():
     loading("disabling active channels", 1.5)
     loading("routing traffic through dead drops", 2)
 
-    # reset blue team pressure
-    engine.counter_hack = False
-    engine.latency = 0.0
+    engine.cool_down()
 
-    # reduce trace (realistic, not full wipe)
-    reduced = min(2, trace)
-    p["trace"] -= reduced
+    reduced = min(2, max(trace, 0))
+    p["trace"] = trace - reduced
     player.save(p)
 
     print(f"[STEALTH] trace reduced by {reduced}")
     print(f"[STEALTH] current trace: {p['trace']}")
 
-    # optional risk
     if p["trace"] > 5:
         print("[STEALTH] warning: you're still hot")
 
-    # force cooldown
     time.sleep(1)

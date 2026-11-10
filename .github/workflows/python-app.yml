@@ -24,8 +24,13 @@ jobs:
 
     - name: Syntax check (compile)
       run: |
-        python -m compileall core blacknet.py
+        python -m compileall core tests blacknet.py main.py
 
-    - name: Run application (smoke test)
+    - name: Unit tests
       run: |
-        python blacknet.py --help || true
+        python -m unittest discover -s tests
+
+    - name: Smoke test (CLI)
+      run: |
+        python blacknet.py --version
+        python blacknet.py --help

@@ -48,22 +48,18 @@ File ini berisi **daftar job global** yang tersedia untuk semua player.
     "id": "JOB-001",
     "title": "Infiltrate Gov Router",
     "target": "gov-id-01",
-    "objective": "capture router1",
-    "reward": {
-      "credits": 300,
-      "rep": 2
-    },
+    "objective": "capture gateway node",
+    "reward": 300,
+    "rep": 2,
     "difficulty": "medium"
   },
   {
     "id": "JOB-002",
     "title": "Persistence Deployment",
-    "target": "corp-01",
+    "target": "gov-id-01",
     "objective": "install backdoor",
-    "reward": {
-      "credits": 200,
-      "rep": 1
-    },
+    "reward": 200,
+    "rep": 1,
     "difficulty": "easy"
   }
 ]
@@ -75,7 +71,8 @@ Field penting:
 | title      | Judul job            |
 | target     | Target world         |
 | objective  | Goal deskriptif      |
-| reward     | Hadiah               |
+| reward     | Kredit (angka). Bentuk `{"credits": 300, "rep": 2}` juga diterima |
+| rep        | Reputasi (angka)     |
 | difficulty | easy / medium / hard |
 📌 Developer hanya menambah job ke file ini lalu commit & push.
 
@@ -83,37 +80,33 @@ Field penting:
 
 ## 2️⃣ jobs_taken.json (LOKAL PLAYER)
 File ini dibuat otomatis saat player menjalankan `take <job_id>`.
+Isinya daftar job yang sedang diambil.
 Contoh:
 ```json
-{
-  "JOB-001": {
-    "taken_at": "2026-01-20T13:22:11",
-    "status": "in_progress"
+[
+  {
+    "id": "JOB-001",
+    "title": "Infiltrate Gov Router",
+    "target": "gov-id-01",
+    "objective": "capture gateway node",
+    "reward": 300,
+    "rep": 2,
+    "difficulty": "medium"
   }
-}
+]
 ```
 📌 Fungsi:
 - Mencegah player mengambil job yang sama dua kali
-- Menyimpan status job aktif
+- Menyimpan job aktif
 
 ❌ Tidak pernah / jangan di-push ke GitHub
 
 ---
 
 ## 3️⃣ jobs_done.json (LOKAL PLAYER)
-Dibuat otomatis saat job berhasil diselesaikan.
-Contoh:
-```json
-{
-  "JOB-001": {
-    "completed_at": "2026-01-20T14:01:55",
-    "reward": {
-      "credits": 300,
-      "rep": 2
-    }
-  }
-}
-```
+Dibuat otomatis saat job diselesaikan dengan `complete <job_id>`.
+Isinya daftar job selesai, bentuknya sama dengan `jobs_taken.json`.
+
 📌 Digunakan untuk:
 - reward player
 - histori job
@@ -146,12 +139,13 @@ Contoh:
 Contoh:
 ```text
 exploit gov-id-01
-contest router1
+contest gateway
 ```
-Game mengecek objective → SUCCESS
+`complete JOB-<id_job>` → reward dibayar, job pindah ke **jobs_done.json**
+(objective bersifat deskriptif, game belum memverifikasinya otomatis)
 
 ###5️⃣ Job selesai
-- Job otomatis dipindahkan ke **jobs_done.json**
+- Job dipindahkan ke **jobs_done.json**
 - Reward ditambahkan ke **player.json**
 - Reputasi naik
 

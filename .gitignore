@@ -12,3 +12,8 @@ data/world_cache.json
 data/reports/
 data/player.json
 data/profile.json
+.buildozer/
+bin/
+*.apk
+*.aab
+.kivy/

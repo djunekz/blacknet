@@ -1,6 +1,7 @@
-import json, os
+from core import store
+from core.paths import DATA
 
-PROFILE = "data/profile.json"
+PROFILE = f"{DATA}/profile.json"
 
 FACTIONS = {
     "red": {
@@ -17,21 +18,24 @@ FACTIONS = {
     }
 }
 
+
 def load_profile():
-    if not os.path.exists(PROFILE):
-        return {}
-    return json.load(open(PROFILE))
+    data = store.read_json(PROFILE, {})
+    return data if isinstance(data, dict) else {}
+
 
 def save_profile(p):
-    os.makedirs("data", exist_ok=True)
-    json.dump(p, open(PROFILE, "w"), indent=2)
+    store.write_json(PROFILE, p)
+
 
 def get_faction():
-    return load_profile().get("faction")
+    f = load_profile().get("faction")
+    return f if f in FACTIONS else None
+
 
 def choose_faction():
     print("Choose your faction:\n")
-    for k,v in FACTIONS.items():
+    for k, v in FACTIONS.items():
         print(f"  {k}  → {v['name']} ({v['desc']})")
 
     while True:
@@ -41,11 +45,10 @@ def choose_faction():
             print("\n[EXIT] faction selection aborted.")
             return None
 
-        if f in ("red", "blue", "gray"):
+        if f in FACTIONS:
             p = load_profile()
             p["faction"] = f
             save_profile(p)
             return f
 
         print("Invalid faction. Choose: red / blue / gray")
-

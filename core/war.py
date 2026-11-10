@@ -1,36 +1,27 @@
-import json, os, random, sys, time
+import random, sys, time
 
-from core import engine
+from core import engine, store
 from core.faction import get_faction
 from core.netmap import netmap
 from core.ui import RED, GREEN, YELLOW, RESET
 from core.ids import write
 from core.blueteam import increase_trace
-
-DATA = "data"
+from core.paths import DATA
 
 
 def load_net():
     if not engine.current_target:
         return None
 
-    path = f"{DATA}/network_{engine.current_target}.json"
-    if not os.path.exists(path):
-        return None
-
-    try:
-        return json.load(open(path))
-    except json.JSONDecodeError:
-        return None
+    net = store.read_json(f"{DATA}/network_{engine.current_target}.json")
+    return net if isinstance(net, dict) else None
 
 
 def save_net(net):
     if not engine.current_target:
         return
 
-    path = f"{DATA}/network_{engine.current_target}.json"
-    with open(path, "w") as f:
-        json.dump(net, f, indent=2)
+    store.write_json(f"{DATA}/network_{engine.current_target}.json", net)
 
 
 def blink_node(node_name, success=True, times=6, delay=0.15):
@@ -61,6 +52,10 @@ def contest(node_name):
 
     node = net["nodes"][node_name]
     my = get_faction()
+    if not my:
+        print("[WAR] choose a faction first")
+        return
+
     enemy = node.get("owner")
 
     if enemy == my:
