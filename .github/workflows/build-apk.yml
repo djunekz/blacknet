@@ -60,6 +60,10 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
+          JDK17="${JAVA_HOME_17_X64:-/usr/lib/jvm/java-17-openjdk-amd64}"
+          export JAVA_HOME="$JDK17"
+          export PATH="$JAVA_HOME/bin:$PATH"
+          java -version
           buildozer -v android debug 2>&1 | tee build.log
 
       - name: Show build errors
