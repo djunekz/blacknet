@@ -19,7 +19,7 @@ os.environ["BLACKNET_HOME"] = HOME
 os.environ["BLACKNET_FAST"] = "1"
 
 from core import engine, paths, player
-from core.ansi import Screen
+from core.ansi import Screen, parse_status
 from core.bridge import Bridge
 
 
@@ -273,7 +273,7 @@ class AndroidLayerTests(unittest.TestCase):
         s.feed("\x1b[3")
         s.feed("1mred\x1b[0m\n")
         self.assertEqual(s.plain_lines()[:2], ["done      ", "red"])
-        self.assertIn("[color=#ff5555]red[/color]", s.markup_lines()[1])
+        self.assertIn("[color=#ff6b7a]red[/color]", s.markup_lines()[1])
         s.feed("\x1b[2J\x1b[3J\x1b[Hnew")
         self.assertEqual(s.plain_lines(), ["new"])
 
@@ -287,6 +287,22 @@ class AndroidLayerTests(unittest.TestCase):
         s = Screen()
         s.feed("🟥 📡")
         self.assertNotIn("🟥", s.markup_lines()[0])
+
+    def test_parse_status_reads_hud_values(self):
+        s = Screen(cols=80)
+        s.feed("\x1b[34m[TARGET:gov-id-01]\x1b[36m [NODE:n2]\x1b[33m [TRACE:42]\x1b[32m [REP:-3]\x1b[0m\n")
+        self.assertEqual(parse_status(s.plain_lines()), ("gov-id-01", 42, -3))
+        self.assertIsNone(parse_status(["nothing here"]))
+
+    def test_compact_banner_has_no_block_art(self):
+        from core import ui
+        with mock.patch.dict(os.environ, {"BLACKNET_COMPACT": "1", "BLACKNET_FAST": "1"}):
+            out = capture(ui.banner)
+            splash = capture(ui.splash, "red")
+        self.assertIn("B L A C K N E T", out)
+        self.assertNotIn("\u2588", out)
+        self.assertIn("RED HAT", splash)
+        self.assertNotIn("\u2588", splash)
 
     def test_bridge_roundtrip_and_close(self):
         b = Bridge()

@@ -1,5 +1,5 @@
 import os, sys, time
-from core import player
+from core import paths, player
 
 # ===== ANSI COLORS =====
 RED    = "\033[31m"
@@ -13,6 +13,9 @@ BOLD   = "\033[1m"
 
 def _fast():
     return os.environ.get("BLACKNET_FAST") == "1"
+
+def compact():
+    return paths.is_android() or os.environ.get("BLACKNET_COMPACT") == "1"
 
 def clear():
     if os.name == "nt":
@@ -33,6 +36,12 @@ def slow_print(text, delay=0.01):
 
 def banner():
     clear()
+    if compact():
+        print(CYAN + BOLD + ">_ B L A C K N E T" + RESET)
+        print(GREY + "-" * 30 + RESET)
+        slow_print(":: underground access established ::", 0.02)
+        print()
+        return
     print(CYAN + BOLD)
     print(r"""
 ██████╗ ██╗      █████╗  ██████╗██╗  ██╗███╗   ██╗███████╗████████╗
@@ -86,6 +95,17 @@ def status_bar(engine, p=None):
 
 def splash(faction):
     clear()
+    if compact():
+        names = {
+            "red": (RED, "RED HAT", "strike first, vanish fast"),
+            "blue": (BLUE, "BLUE HAT", "detect, contain, respond"),
+        }
+        color, name, tagline = names.get(faction, (GREY, "GRAY HAT", "profit over ideology"))
+        print(color + BOLD + f">> {name}" + RESET)
+        print(GREY + "-" * 30 + RESET)
+        slow_print(f":: {name.title()} Hacker - {tagline} ::", 0.02)
+        print()
+        return
     print(BOLD)
     if faction == "red":
         print(RED + r"""

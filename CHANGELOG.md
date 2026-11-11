@@ -8,6 +8,31 @@ This project follows semantic versioning.
 
 ---
 
+## [v1.1.5] - 2026-11-11
+
+### Added
+- Tampilan Android baru bergaya "Neon HUD" di `main.py`: kartu status `TARGET` / `TRACE` / `REP` yang diperbarui otomatis dari output game, bar trace (amber, merah saat 70% ke atas), panel terminal dengan sudut membulat, tombol perintah cepat berbentuk pil, kolom input dengan prompt `$` dan tombol kirim
+- Ikon aplikasi dan presplash baru (`assets/icon.png`, `assets/presplash.png`) dengan logo prompt `>_` bernuansa cyan; `buildozer.spec` memakai keduanya
+- `core.ansi.parse_status()` — membaca `[TARGET] [NODE] [TRACE] [REP]` dari layar terminal
+- `core.ui.compact()` — mode banner ringkas untuk Android atau env `BLACKNET_COMPACT=1`
+- `.github/workflows/build-apk.yml`: input `clean_build`, unggah `build.log` sebagai artifact, dan langkah "Show build errors"
+- `workflow_dispatch` untuk `python-app.yml` dan `release.yml` (input `tag`), sehingga bisa dijalankan manual
+- Test untuk `parse_status` dan banner ringkas
+
+### Changed
+- Banner ASCII besar dan splash faksi diganti versi ringkas di Android karena terpotong dan berantakan di layar sempit; terminal desktop tetap memakai banner penuh
+- Palet warna terminal Android disesuaikan dengan tema Neon HUD
+- Lebar kolom terminal dihitung dari lebar area teks sebenarnya
+- `core/version.py` naik ke `1.1.5`
+
+### Fixed
+- Build APK gagal di GitHub Actions: `buildozer.spec` dikunci ke `p4a.branch = v2024.01.21`, `kivy==2.3.0`, `android.ndk = 25b`, `android.ndk_api = 24` (wheel `cp314` dari python-for-android terbaru tidak didukung pip Python 3.11)
+- Gradle gagal dengan `Unsupported class file major version 69`: build memakai JDK 17
+- Cython dibatasi `<3.1` dan setuptools `<81` agar kompatibel dengan Kivy 2.3.0
+- Kegagalan buildozer tidak lagi tersembunyi oleh pipa `tee` (memakai `pipefail`)
+
+---
+
 ## [v1.1.0] - 2026-11-10
 
 ### Added

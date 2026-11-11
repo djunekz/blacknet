@@ -1,22 +1,22 @@
 import re
 
 PALETTE = {
-    None: "d8d8d8",
-    30: "5c5c5c",
-    31: "ff5555",
-    32: "50fa7b",
-    33: "f1fa8c",
-    34: "6c8cff",
-    35: "ff79c6",
-    36: "8be9fd",
-    37: "e8e8e8",
-    90: "8a8a8a",
-    91: "ff7777",
-    92: "7dffa0",
-    93: "ffffa5",
-    94: "8fa8ff",
+    None: "c9d6e8",
+    30: "5c6b82",
+    31: "ff6b7a",
+    32: "5be49b",
+    33: "ffb547",
+    34: "6c9cff",
+    35: "ff7ad0",
+    36: "5ce1ff",
+    37: "e8f6ff",
+    90: "7d8da6",
+    91: "ff8a96",
+    92: "7dffb4",
+    93: "ffd27a",
+    94: "8fb4ff",
     95: "ff9bd8",
-    96: "a4ffff",
+    96: "9aefff",
     97: "ffffff",
 }
 
@@ -31,8 +31,17 @@ FALLBACK = {
     "️": "",
 }
 
+STATUS_RE = re.compile(r"\[TARGET:([^\]]*)\](?: \[NODE:[^\]]*\])? \[TRACE:(\d+)\] \[REP:(-?\d+)\]")
 CSI_RE = re.compile(r"\x1b\[([0-9;?]*)([A-Za-z])")
 PARTIAL_RE = re.compile(r"\x1b(\[[0-9;?]*)?$")
+
+
+def parse_status(lines):
+    for line in reversed(lines[-60:]):
+        m = STATUS_RE.search(line)
+        if m:
+            return m.group(1), int(m.group(2)), int(m.group(3))
+    return None
 
 
 def escape_markup(text):
